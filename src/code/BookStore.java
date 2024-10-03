@@ -2,7 +2,7 @@ import java.util.List;
 
 public class BookStore
 {
-    private final String storeName;
+    private final String     storeName;
     private final List<Book> books;
 
     public BookStore(final String storeName)
@@ -24,4 +24,6 @@ public class BookStore
     {
 
     }
+
+
 }

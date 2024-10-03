@@ -4,7 +4,7 @@ import java.util.List;
 public class Book
 {
     private static final String[] TITLES = {
-    "The Adventures of Augie March",
+            "The Adventures of Augie March",
             "All the King's Men",
             "American Pastoral",
             "An American Tragedy",
@@ -210,24 +210,28 @@ public class Book
     };
 
     private static final int[] YEARS_PUBLISHED = {
-            1953, 1946, 1997, 1925, 1946, 1934, 1970, 1957, 1938, 2002, 1987, 1946, 1939, 2000, 1986, 1946, 1927, 1935, 1961,
-            1951, 1963, 1967, 2001, 1966, 1951, 1939, 1927, 1958, 1958, 1970, 1974, 1977, 1969, 1962, 1953, 1936, 1939, 1973,
-            1925, 1934, 1940, 1948, 1964, 1981, 1962, 1934, 1996, 1952, 1932, 1950, 1955, 1954, 1954, 1945, 1954, 1940, 1981,
-            1984, 1961, 1925, 1959, 1940, 1984, 2005, 1948, 1957, 1962, 1965, 1962, 1924, 1970, 1969, 1990, 1939, 1961, 1960,
-            1975, 1955, 1929, 1961, 1949, 1969, 1992, 1960, 1929, 1986, 1964, 1926, 1937, 1959, 1960, 1929, 1934, 1969, 1954,
-            1947, 1986, 1985, 2000, 1966
+            1953, 1946, 1997, 1925, 1946, 1934, 1970, 1957, 1938, 2002,
+            1987, 1946, 1939, 2000, 1986, 1946, 1927, 1935, 1961, 1951,
+            1963, 1967, 2001, 1966, 1951, 1939, 1927, 1958, 1958, 1970,
+            1974, 1977, 1969, 1962, 1953, 1936, 1939, 1973, 1925, 1934,
+            1940, 1948, 1964, 1981, 1962, 1934, 1996, 1952, 1932, 1950,
+            1955, 1954, 1954, 1945, 1954, 1940, 1981, 1984, 1961, 1925,
+            1959, 1940, 1984, 2005, 1948, 1957, 1962, 1965, 1962, 1924,
+            1970, 1969, 1990, 1939, 1961, 1960, 1975, 1955, 1929, 1961,
+            1949, 1969, 1992, 1960, 1929, 1986, 1964, 1926, 1937, 1959,
+            1960, 1929, 1934, 1969, 1954, 1947, 1986, 1985, 2000, 1966
     };
 
     private final String title;
     private final String author;
-    private final int yearPublished;
+    private final int    yearPublished;
 
     public Book(final String title,
                 final String author,
-                final int yearPublished)
+                final int    yearPublished)
     {
-        this.title = title;
-        this.author = author;
+        this.title         = title;
+        this.author        = author;
         this.yearPublished = yearPublished;
     }
 
@@ -244,15 +248,18 @@ public class Book
         return books;
     }
 
-    public String getTitle() {
+    public String getTitle()
+    {
         return title;
     }
 
-    public String getAuthor() {
+    public String getAuthor()
+    {
         return author;
     }
 
-    public int getYearPublished() {
+    public int getYearPublished()
+    {
         return yearPublished;
     }
 }
