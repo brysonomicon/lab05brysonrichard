@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Book
+public class Book implements Comparable<Book>
 {
     private static final String[] TITLES = {
             "The Adventures of Augie March",
@@ -261,5 +261,11 @@ public class Book
     public int getYearPublished()
     {
         return yearPublished;
+    }
+
+    @Override
+    public int compareTo(final Book that)
+    {
+        return this.title.compareToIgnoreCase(that.getTitle());
     }
 }

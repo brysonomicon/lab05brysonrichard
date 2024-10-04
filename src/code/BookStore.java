@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class BookStore
@@ -53,10 +54,21 @@ public class BookStore
         }
     }
 
-    // TODO prints all titles in alphabetical order
+    /**
+     * Creates a copy of the instance List of Books. Sorts the copy and then
+     * prints all of them in alphabetical order.
+     */
     public void printTitlesInAlphaOrder()
     {
+        List<Book> sortedBooks;
 
+        sortedBooks = new ArrayList<>(books);
+        Collections.sort(sortedBooks);
+
+        for(Book book : sortedBooks)
+        {
+            System.out.println(book.getTitle());
+        }
     }
 
     // TODO prints all books of a given decade
@@ -108,10 +120,13 @@ public class BookStore
 
         store = new BookStore("Books and Books and Books");
 
-//        System.out.println("Print all of the book titles in UPPERCASE");
-//        store.printAllTitles();
+        System.out.println("Print all of the book titles in UPPERCASE");
+        store.printAllTitles();
 
         System.out.println("\nBook Titles containing \"The\"");
         store.printBookTitle("the");
+
+        System.out.println("\nAll Titles in Alphabetical Order");
+        store.printTitlesInAlphaOrder();
     }
 }
