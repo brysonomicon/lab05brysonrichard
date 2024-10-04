@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class BookStore
@@ -20,16 +21,36 @@ public class BookStore
         }
     }
 
-    // TODO prints all titles in UPPERCASE
+    /**
+     * Iterates through the BookStore List and prints all of the titles in UPPERCASE.
+     */
     public void printAllTitles()
     {
-
+        for(Book book : books)
+        {
+            System.out.println(book.getTitle().toUpperCase());
+        }
     }
 
-    // TODO prints all Book titles that contain the pass parameter
+    /**
+     * Iterates through the BookStore List and prints all titles that contain the
+     * parameter passed as a String.
+     *
+     * @param title what we check to see if each title in the book store list contains
+     */
     public void printBookTitle(final String title)
     {
+        String titleLowerCase;
 
+        titleLowerCase = title.toLowerCase();
+
+        for(Book book : books)
+        {
+            if(book.getTitle().toLowerCase().contains(titleLowerCase))
+            {
+                System.out.println(book.getTitle());
+            }
+        }
     }
 
     // TODO prints all titles in alphabetical order
@@ -83,6 +104,14 @@ public class BookStore
 
     public static void main(String[] args)
     {
+        BookStore store;
 
+        store = new BookStore("Books and Books and Books");
+
+//        System.out.println("Print all of the book titles in UPPERCASE");
+//        store.printAllTitles();
+
+        System.out.println("\nBook Titles containing \"The\"");
+        store.printBookTitle("the");
     }
 }
