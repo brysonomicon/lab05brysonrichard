@@ -4,6 +4,9 @@ import java.util.List;
 
 public class BookStore
 {
+    private static final int DECADE_LOWER_BOUND_ROUNDER = 10;
+    private static final int DECADE_UPPER_BOUND_ROUNDER = 9;
+
     private final String     storeName;
     private final List<Book> books;
 
@@ -14,6 +17,9 @@ public class BookStore
         this.books = Book.createBookList();
     }
 
+    /*
+    Checks to make sure the store name is not null or empty.
+     */
     private static void validateName(final String storeName)
     {
         if(storeName == null || storeName.isEmpty())
@@ -71,11 +77,31 @@ public class BookStore
         }
     }
 
-    // TODO prints all books of a given decade
-    // ie 2000 would print 2000-2009
+    /**
+     * Prints all the books published in a decade determined by the passed int parameter.
+     * Takes a given decade parameter and rounds it down to the nearest {@value DECADE_LOWER_BOUND_ROUNDER} to determine
+     * the lower bound of the decade. Then adds {@value DECADE_UPPER_BOUND_ROUNDER}
+     *
+     * @param decade a year that falls in the desired decade
+     */
     public void printGroupByDecade(final int decade)
     {
+        int startOfDecade;
+        int endOfDecade;
+        int publicationYear;
 
+        startOfDecade = (decade/DECADE_LOWER_BOUND_ROUNDER) * DECADE_LOWER_BOUND_ROUNDER;
+        endOfDecade = startOfDecade + DECADE_UPPER_BOUND_ROUNDER;
+
+        for(Book book : books)
+        {
+            publicationYear = book.getYearPublished();
+
+            if(publicationYear >= startOfDecade && publicationYear <= endOfDecade)
+            {
+                System.out.println(book.getTitle());
+            }
+        }
     }
 
     // TODO return the longest string in the bookstore
@@ -128,5 +154,8 @@ public class BookStore
 
         System.out.println("\nAll Titles in Alphabetical Order");
         store.printTitlesInAlphaOrder();
+
+        System.out.println("\nBooks from the 2000s");
+        store.printGroupByDecade(2000);
     }
 }
