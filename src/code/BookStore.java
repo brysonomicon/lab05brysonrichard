@@ -104,10 +104,23 @@ public class BookStore
         }
     }
 
-    // TODO return the longest string in the bookstore
-    public String getLongest()
+    /**
+     * Initializes the longestTitle variable to the first book in the book list.
+     * Iterates through all books to find the longest title and prints the result.
+     */
+    public void printLongest()
     {
-        return "";
+        Book longestTitle = books.getFirst();
+
+        for(Book book : books)
+        {
+            if(book.getTitle().length() > longestTitle.getTitle().length())
+            {
+                longestTitle = book;
+            }
+        }
+
+        System.out.println(longestTitle.getTitle());
     }
 
     // TODO return true if a book was written in the given year, false if not
@@ -157,5 +170,8 @@ public class BookStore
 
         System.out.println("\nBooks from the 2000s");
         store.printGroupByDecade(2000);
+
+        System.out.println("\nLongest Book Title");
+        store.printLongest();
     }
 }
