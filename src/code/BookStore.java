@@ -13,6 +13,7 @@ public class BookStore
     public BookStore(final String storeName)
     {
         validateName(storeName);
+
         this.storeName = storeName;
         this.books = Book.createBookList();
     }
@@ -123,28 +124,93 @@ public class BookStore
         System.out.println(longestTitle.getTitle());
     }
 
-    // TODO return true if a book was written in the given year, false if not
+    /**
+     * Iterates through the book list to see if any were published in the year passed
+     * as a parameter. Returns true if one is found, false if not.
+     *
+     * @param year to check if
+     * @return
+     */
     public boolean isThereABookWrittenIn(final int year)
     {
+        for(Book book : books)
+        {
+            if(book.getYearPublished() == year)
+            {
+                return true;
+            }
+        }
         return false;
     }
 
-    // TODO return an int of how many books contain the work passed as parameter
+    /**
+     * Increments a counter for each title in the book list that containts the
+     * word passed as a parameter.
+     *
+     * @param word String to check if contained in each book title
+     * @return number
+     */
     public int howManyBooksContain(final String word)
     {
-        return 0;
+        int counter;
+
+        counter = 0;
+
+        for(Book book : books)
+        {
+            if(book.getTitle().toLowerCase().contains(word.toLowerCase()))
+            {
+                counter++;
+            }
+        }
+
+        return counter;
     }
 
-    // TODO return percentage of total books written between ranges as a double
-    public double whichPercentWrittenBetween(final int first, final int last)
+    /**
+     * Returns a double value of the ratio of books between the ranges passed as
+     * parameters and the total number of books.
+     *
+     * @param lowerBound
+     * @param upperBound
+     * @return double representing the percentage of books between the lower and upper bounds
+     */
+    public double whichPercentWrittenBetween(final int lowerBound,
+                                             final int upperBound)
     {
-        return 0;
+        int counter;
+
+        counter = 0;
+
+        for(Book book : books)
+        {
+            if(book.getYearPublished() < upperBound && book.getYearPublished() > lowerBound)
+            {
+                ++counter;
+            }
+        }
+
+        return (double)counter / (double)books.size();
     }
 
-    // TODO return the oldest book in the bookstore
+    /**
+     * Returns the oldest book from the book list.
+     * @return Book object that is oldest
+     */
     public Book getOldestBook()
     {
-        return null;
+        Book oldestBook;
+
+        oldestBook = books.getFirst();
+
+        for(Book book : books)
+        {
+            if(book.getYearPublished() > oldestBook.getYearPublished())
+            {
+                oldestBook = book;
+            }
+        }
+        return oldestBook;
     }
 
     // TODO add all books of given length to a List and return the List
@@ -173,5 +239,8 @@ public class BookStore
 
         System.out.println("\nLongest Book Title");
         store.printLongest();
+
+        System.out.println("\nOldest Book Title");
+        store.getOldestBook();
     }
 }
