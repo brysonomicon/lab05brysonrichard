@@ -63,13 +63,17 @@ public class BookStore
     }
 
     /**
-     * Iterates through the BookStore List and prints all of the titles in UPPERCASE.
+     * Iterates through the BookStore List and prints all the titles in UPPERCASE.
      */
     public void printAllTitles()
     {
         for(Novel novel : novels)
         {
-            System.out.println(novel.getTitle().toUpperCase());
+            final String titleUpperCase;
+
+            titleUpperCase = novel.getTitle().toUpperCase();
+
+            System.out.println(titleUpperCase);
         }
     }
 
@@ -87,7 +91,11 @@ public class BookStore
 
         for(Novel novel : novels)
         {
-            if(novel.getTitle().toLowerCase().contains(titleLowerCase))
+            final String novelTitleLowerCase;
+
+            novelTitleLowerCase = novel.getTitle().toLowerCase();
+
+            if(novelTitleLowerCase.contains(titleLowerCase))
             {
                 System.out.println(novel.getTitle());
             }
@@ -144,17 +152,25 @@ public class BookStore
      */
     public void printLongest()
     {
-        Novel longestTitle = novels.getFirst();
+        String longestTitle;
+
+        longestTitle = novels.getFirst().getTitle();
 
         for(Novel novel : novels)
         {
-            if(novel.getTitle().length() > longestTitle.getTitle().length())
+            final int novelTitleLength;
+            final int longestNovelTitleLength;
+
+            novelTitleLength = novel.getTitle().length();
+            longestNovelTitleLength = longestTitle.length();
+
+            if(novelTitleLength > longestNovelTitleLength)
             {
-                longestTitle = novel;
+                longestTitle = novel.getTitle();
             }
         }
 
-        System.out.println(longestTitle.getTitle());
+        System.out.println(longestTitle);
     }
 
     /**
@@ -168,11 +184,16 @@ public class BookStore
     {
         for(Novel novel : novels)
         {
-            if(novel.getYearPublished() == year)
+            final int novelYearPublished;
+
+            novelYearPublished = novel.getYearPublished();
+
+            if(novelYearPublished == year)
             {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -185,13 +206,19 @@ public class BookStore
      */
     public int howManyBooksContain(final String word)
     {
-        int counter;
+        int          counter;
+        final String wordLowerCase;
 
-        counter = 0;
+        counter       = 0;
+        wordLowerCase = word.toLowerCase();
 
         for(Novel novel : novels)
         {
-            if(novel.getTitle().toLowerCase().contains(word.toLowerCase()))
+            final String novelTitle;
+
+            novelTitle = novel.getTitle().toLowerCase();
+
+            if(novelTitle.contains(wordLowerCase))
             {
                 counter++;
             }
@@ -217,7 +244,11 @@ public class BookStore
 
         for(Novel novel : novels)
         {
-            if(novel.getYearPublished() <= upperBound && novel.getYearPublished() >= lowerBound)
+            final int novelYearPublished;
+
+            novelYearPublished = novel.getYearPublished();
+
+            if(novelYearPublished <= upperBound && novelYearPublished >= lowerBound)
             {
                 ++counter;
             }
@@ -236,15 +267,23 @@ public class BookStore
 
         oldestBook = novels.getFirst();
 
-        for(Novel novel : novels)
+        for (Novel novel : novels)
         {
-            if(novel.getYearPublished() < oldestBook.getYearPublished())
+            final int novelYearPublished;
+            final int oldestBookYearPublished;
+
+            novelYearPublished      = novel.getYearPublished();
+            oldestBookYearPublished = oldestBook.getYearPublished();
+
+            if (novelYearPublished < oldestBookYearPublished)
             {
                 oldestBook = novel;
             }
         }
+
         return oldestBook;
     }
+
 
     /**
      * Returns a list of novels with titles of the specified length.
@@ -255,16 +294,21 @@ public class BookStore
     public List<Novel> getBooksThisLength(final int length)
     {
         final List<Novel> novelsWithLength;
+
         novelsWithLength = new ArrayList<>();
 
         for(Novel novel : novels)
         {
-            if(novel.getTitle().length() == length)
+            final int novelTitleLength;
+
+            novelTitleLength = novel.getTitle().length();
+
+            if(novelTitleLength == length)
             {
                 novelsWithLength.add(novel);
             }
-
         }
+
         return novelsWithLength;
     }
 
