@@ -1,16 +1,38 @@
+package ca.bcit.comp2522.lab05;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+
+/**
+ * The {@code BookStore} class represents a store containing a collection of novels.
+ * It provides methods to search, sort, and print information about the novels.
+ *
+ * @author Bryson Lindy
+ * @author Richard Ho
+ * @author Phyo Thu Kha
+ *
+ * @version 1.0
+ */
 public class BookStore
 {
+    /* Rounds down the decade value when calculating the start of a decade. */
     private static final int DECADE_LOWER_BOUND_ROUNDER = 10;
+    /* Adds to the start of the decade to calculate the end of a decade. */
     private static final int DECADE_UPPER_BOUND_ROUNDER = 9;
+    /* Constant used to convert a fraction to a percentage. */
     private static final int PERCENTAGE_CONVERTOR       = 100;
 
     private final String      storeName;
     private final List<Novel> novels;
 
+    /**
+     * Constructs a {@code BookStore} with the given store name.
+     * Initializes the list of novels using {@code Novel.createNovelList()}.
+     *
+     * @param storeName the name of the bookstore
+     */
     public BookStore(final String storeName)
     {
         validateName(storeName);
@@ -19,6 +41,11 @@ public class BookStore
         this.novels    = Novel.createNovelList();
     }
 
+    /**
+     * Returns the name of the bookstore.
+     *
+     * @return the name of the bookstore
+     */
     public String getStoreName()
     {
         return storeName;
@@ -219,7 +246,12 @@ public class BookStore
         return oldestBook;
     }
 
-    // TODO add all novels of given length to a List and return the List
+    /**
+     * Returns a list of novels with titles of the specified length.
+     *
+     * @param length the desired title length
+     * @return a list of novels with titles of the given length
+     */
     public List<Novel> getBooksThisLength(final int length)
     {
         final List<Novel> novelsWithLength;
@@ -236,6 +268,11 @@ public class BookStore
         return novelsWithLength;
     }
 
+    /**
+     * Main method to test the functionality of the {@code BookStore} class.
+     *
+     * @param args command line arguments
+     */
     public static void main(String[] args)
     {
         BookStore store;

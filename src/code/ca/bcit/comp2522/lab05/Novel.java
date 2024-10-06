@@ -1,6 +1,18 @@
+package ca.bcit.comp2522.lab05;
+
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The {@code Novel} class represents a novel with a title, author, and year of publication.
+ * It also implements the {@link Comparable} interface to allow comparison between novels based on their titles.
+ *
+ * @author Richard Ho
+ * @author Bryson Lindy
+ * @author Phyo Thu Kha
+ *
+ * @version 1.0
+ */
 public class Novel implements Comparable<Novel>
 {
     private static final String[] TITLES = {
@@ -226,6 +238,13 @@ public class Novel implements Comparable<Novel>
     private final String author;
     private final int    yearPublished;
 
+    /**
+     * Constructs a new {@code Novel} instance with the specified title, author, and year of publication.
+     *
+     * @param title         the title of the novel
+     * @param author        the author of the novel
+     * @param yearPublished the year the novel was published
+     */
     public Novel(final String  title,
                  final String  author,
                  final int     yearPublished)
@@ -235,34 +254,63 @@ public class Novel implements Comparable<Novel>
         this.yearPublished = yearPublished;
     }
 
+    /**
+     * Creates a list of {@code Novel} objects using the predefined arrays of titles, authors, and publication years.
+     *
+     * @return a list of {@code Novel} objects
+     */
     public static List<Novel> createNovelList()
     {
-        final List<Novel> books;
-        books = new ArrayList<>();
+        final List<Novel> novels;
+        novels = new ArrayList<>();
 
         for(int i = 0; i < TITLES.length; ++i)
         {
-            books.add(new Novel(TITLES[i], AUTHORS[i], YEARS_PUBLISHED[i]));
+            novels.add(new Novel(TITLES[i], AUTHORS[i], YEARS_PUBLISHED[i]));
         }
 
-        return books;
+        return novels;
     }
 
+
+    /**
+     * Gets the title of the novel.
+     *
+     * @return the title of the novel
+     */
     public String getTitle()
     {
         return title;
     }
 
+    /**
+     * Gets the author of the novel.
+     *
+     * @return the author of the novel
+     */
     public String getAuthor()
     {
         return author;
     }
 
+
+    /**
+     * Gets the year the novel was published.
+     *
+     * @return the year the novel was published
+     */
     public int getYearPublished()
     {
         return yearPublished;
     }
 
+    /**
+     * Compares this novel with the specified novel for order based on the title, ignoring case considerations.
+     *
+     * @param that the novel to be compared
+     * @return     a negative integer, zero, or a positive integer as this novel's title is lexicographically less
+     * than, equal to, or greater than the specified novel's title
+     */
     @Override
     public int compareTo(final Novel that)
     {
