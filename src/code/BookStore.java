@@ -6,16 +6,22 @@ public class BookStore
 {
     private static final int DECADE_LOWER_BOUND_ROUNDER = 10;
     private static final int DECADE_UPPER_BOUND_ROUNDER = 9;
+    private static final int PERCENTAGE_CONVERTOR       = 100;
 
-    private final String     storeName;
-    private final List<Book> books;
+    private final String      storeName;
+    private final List<Novel> novels;
 
     public BookStore(final String storeName)
     {
         validateName(storeName);
 
         this.storeName = storeName;
-        this.books = Book.createBookList();
+        this.novels    = Novel.createNovelList();
+    }
+
+    public String getStoreName()
+    {
+        return storeName;
     }
 
     /*
@@ -34,9 +40,9 @@ public class BookStore
      */
     public void printAllTitles()
     {
-        for(Book book : books)
+        for(Novel novel : novels)
         {
-            System.out.println(book.getTitle().toUpperCase());
+            System.out.println(novel.getTitle().toUpperCase());
         }
     }
 
@@ -52,11 +58,11 @@ public class BookStore
 
         titleLowerCase = title.toLowerCase();
 
-        for(Book book : books)
+        for(Novel novel : novels)
         {
-            if(book.getTitle().toLowerCase().contains(titleLowerCase))
+            if(novel.getTitle().toLowerCase().contains(titleLowerCase))
             {
-                System.out.println(book.getTitle());
+                System.out.println(novel.getTitle());
             }
         }
     }
@@ -67,19 +73,19 @@ public class BookStore
      */
     public void printTitlesInAlphaOrder()
     {
-        List<Book> sortedBooks;
+        List<Novel> sortedBooks;
 
-        sortedBooks = new ArrayList<>(books);
+        sortedBooks = new ArrayList<>(novels);
         Collections.sort(sortedBooks);
 
-        for(Book book : sortedBooks)
+        for(Novel novel : sortedBooks)
         {
-            System.out.println(book.getTitle());
+            System.out.println(novel.getTitle());
         }
     }
 
     /**
-     * Prints all the books published in a decade determined by the passed int parameter.
+     * Prints all the novels published in a decade determined by the passed int parameter.
      * Takes a given decade parameter and rounds it down to the nearest {@value DECADE_LOWER_BOUND_ROUNDER} to determine
      * the lower bound of the decade. Then adds {@value DECADE_UPPER_BOUND_ROUNDER}
      *
@@ -94,30 +100,30 @@ public class BookStore
         startOfDecade = (decade/DECADE_LOWER_BOUND_ROUNDER) * DECADE_LOWER_BOUND_ROUNDER;
         endOfDecade = startOfDecade + DECADE_UPPER_BOUND_ROUNDER;
 
-        for(Book book : books)
+        for(Novel novel : novels)
         {
-            publicationYear = book.getYearPublished();
+            publicationYear = novel.getYearPublished();
 
             if(publicationYear >= startOfDecade && publicationYear <= endOfDecade)
             {
-                System.out.println(book.getTitle());
+                System.out.println(novel.getTitle());
             }
         }
     }
 
     /**
      * Initializes the longestTitle variable to the first book in the book list.
-     * Iterates through all books to find the longest title and prints the result.
+     * Iterates through all novels to find the longest title and prints the result.
      */
     public void printLongest()
     {
-        Book longestTitle = books.getFirst();
+        Novel longestTitle = novels.getFirst();
 
-        for(Book book : books)
+        for(Novel novel : novels)
         {
-            if(book.getTitle().length() > longestTitle.getTitle().length())
+            if(novel.getTitle().length() > longestTitle.getTitle().length())
             {
-                longestTitle = book;
+                longestTitle = novel;
             }
         }
 
@@ -129,13 +135,13 @@ public class BookStore
      * as a parameter. Returns true if one is found, false if not.
      *
      * @param year to check if
-     * @return
+     * @return boolean
      */
     public boolean isThereABookWrittenIn(final int year)
     {
-        for(Book book : books)
+        for(Novel novel : novels)
         {
-            if(book.getYearPublished() == year)
+            if(novel.getYearPublished() == year)
             {
                 return true;
             }
@@ -156,9 +162,9 @@ public class BookStore
 
         counter = 0;
 
-        for(Book book : books)
+        for(Novel novel : novels)
         {
-            if(book.getTitle().toLowerCase().contains(word.toLowerCase()))
+            if(novel.getTitle().toLowerCase().contains(word.toLowerCase()))
             {
                 counter++;
             }
@@ -168,12 +174,12 @@ public class BookStore
     }
 
     /**
-     * Returns a double value of the ratio of books between the ranges passed as
-     * parameters and the total number of books.
+     * Returns a double value of the ratio of novels between the ranges passed as
+     * parameters and the total number of novels.
      *
      * @param lowerBound
      * @param upperBound
-     * @return double representing the percentage of books between the lower and upper bounds
+     * @return double representing the percentage of novels between the lower and upper bounds
      */
     public double whichPercentWrittenBetween(final int lowerBound,
                                              final int upperBound)
@@ -182,46 +188,59 @@ public class BookStore
 
         counter = 0;
 
-        for(Book book : books)
+        for(Novel novel : novels)
         {
-            if(book.getYearPublished() < upperBound && book.getYearPublished() > lowerBound)
+            if(novel.getYearPublished() <= upperBound && novel.getYearPublished() >= lowerBound)
             {
                 ++counter;
             }
         }
 
-        return (double)counter / (double)books.size();
+        return ((double)counter / (double) novels.size()) * PERCENTAGE_CONVERTOR;
     }
 
     /**
      * Returns the oldest book from the book list.
      * @return Book object that is oldest
      */
-    public Book getOldestBook()
+    public Novel getOldestBook()
     {
-        Book oldestBook;
+        Novel oldestBook;
 
-        oldestBook = books.getFirst();
+        oldestBook = novels.getFirst();
 
-        for(Book book : books)
+        for(Novel novel : novels)
         {
-            if(book.getYearPublished() > oldestBook.getYearPublished())
+            if(novel.getYearPublished() < oldestBook.getYearPublished())
             {
-                oldestBook = book;
+                oldestBook = novel;
             }
         }
         return oldestBook;
     }
 
-    // TODO add all books of given length to a List and return the List
-    public List<Book> getBooksThisLength(final int length)
+    // TODO add all novels of given length to a List and return the List
+    public List<Novel> getBooksThisLength(final int length)
     {
-        return null;
+        final List<Novel> novelsWithLength;
+        novelsWithLength = new ArrayList<>();
+
+        for(Novel novel : novels)
+        {
+            if(novel.getTitle().length() == length)
+            {
+                novelsWithLength.add(novel);
+            }
+
+        }
+        return novelsWithLength;
     }
 
     public static void main(String[] args)
     {
         BookStore store;
+        final Novel oldest;
+        final List<Novel>fifteenCharTitles;
 
         store = new BookStore("Books and Books and Books");
 
@@ -240,7 +259,25 @@ public class BookStore
         System.out.println("\nLongest Book Title");
         store.printLongest();
 
+        System.out.println("\nReturns if there is a book written in 1950?");
+        System.out.println(store.isThereABookWrittenIn(1950));
+
+        System.out.println("\nHow many books contain heart?");
+        System.out.println(store.howManyBooksContain("heart"));
+
+        System.out.println("\nPercentage of books written between 1940 and 1950:");
+        System.out.println(store.whichPercentWrittenBetween(1940, 1950) + "%");
+
         System.out.println("\nOldest Book Title");
-        store.getOldestBook();
+
+        oldest = store.getOldestBook();
+        System.out.println(oldest.getTitle() + " by " + oldest.getAuthor() + ", " +
+                oldest.getYearPublished());
+
+        System.out.println("\nNovels with 15 characters");
+        fifteenCharTitles = store.getBooksThisLength(15);
+        fifteenCharTitles.forEach(novels -> System.out.println(novels.getTitle()));
+
     }
+
 }
