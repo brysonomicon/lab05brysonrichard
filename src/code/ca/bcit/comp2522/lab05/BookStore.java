@@ -1,8 +1,6 @@
 package ca.bcit.comp2522.lab05;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -24,8 +22,8 @@ public class BookStore
     /* Constant used to convert a fraction to a percentage. */
     private static final int PERCENTAGE_CONVERTOR       = 100;
 
-    private final String      storeName;
-    private final List<Novel> novels;
+    private final String             storeName;
+    private final List<Novel>        novels;
 
     /**
      * Constructs a {@code BookStore} with the given store name.
@@ -39,6 +37,43 @@ public class BookStore
 
         this.storeName = storeName;
         this.novels    = Novel.createNovelList();
+
+        Map<String, Novel> novelMap;
+        Set<String>        novelKeySet;
+        Iterator<String>   it;
+        List<String>       keyList;
+
+        novelMap    = new HashMap<>();
+        insertNovelMap(novelMap);
+
+        novelKeySet = novelMap.keySet();
+        keyList     = new ArrayList<>(novelKeySet);
+        it          = keyList.iterator();
+
+        System.out.println("Mapped Novel titles:");
+        while(it.hasNext())
+        {
+            final String novelTitle;
+            final String novelLowerCase;
+
+            novelTitle = it.next();
+
+            novelLowerCase = novelTitle.toLowerCase();
+
+            System.out.println(novelTitle);
+
+            if(novelLowerCase.contains("the"))
+            {
+                it.remove();
+            }
+        }
+
+        System.out.print(System.lineSeparator());
+
+        for(final String novelKey : keyList)
+        {
+            System.out.println(novelMap.get(novelKey).getTitle());
+        }
     }
 
     /**
@@ -49,6 +84,14 @@ public class BookStore
     public String getStoreName()
     {
         return storeName;
+    }
+
+    public void insertNovelMap(final Map<String, Novel> novelMap)
+    {
+        for(Novel novel : novels)
+        {
+            novelMap.put(novel.getTitle(), novel);
+        }
     }
 
     /*
@@ -324,6 +367,7 @@ public class BookStore
         final List<Novel>fifteenCharTitles;
 
         store = new BookStore("Books and Books and Books");
+        System.out.println(store.getStoreName());
 
         System.out.println("Print all of the book titles in UPPERCASE");
         store.printAllTitles();

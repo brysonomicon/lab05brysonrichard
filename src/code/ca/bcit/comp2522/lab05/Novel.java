@@ -317,4 +317,11 @@ public class Novel implements Comparable<Novel>
         return this.title.compareToIgnoreCase(that.getTitle());
     }
 
+    // TODO finish off toString method and call it in bookStore after sorting the collection
+    @Override
+    public String toString()
+    {
+
+    }
+
 }
