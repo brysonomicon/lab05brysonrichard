@@ -1,6 +1,12 @@
 package ca.bcit.comp2522.lab05;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Set;
+import java.util.Iterator;
 
 
 /**
@@ -15,15 +21,15 @@ import java.util.*;
  */
 public class BookStore
 {
-    /* Rounds down the decade value when calculating the start of a decade. */
-    private static final int DECADE_LOWER_BOUND_ROUNDER = 10;
-    /* Adds to the start of the decade to calculate the end of a decade. */
-    private static final int DECADE_UPPER_BOUND_ROUNDER = 9;
-    /* Constant used to convert a fraction to a percentage. */
-    private static final int PERCENTAGE_CONVERTOR       = 100;
+    private static final int ROUND_LOWER_BOUND    = 10;
+    private static final int ROUND_UPPER_BOUND    = 9;
+    private static final int PERCENTAGE_CONVERTOR = 100;
 
     private final String             storeName;
     private final List<Novel>        novels;
+    private final Map<String, Novel> novelsMap;
+    private final Set<String>        keySet;
+    private final List<String>       keyList;
 
     /**
      * Constructs a {@code BookStore} with the given store name.
@@ -35,47 +41,16 @@ public class BookStore
     {
         validateName(storeName);
 
+        novelsMap = new HashMap<>();
+
         this.storeName = storeName;
         this.novels    = Novel.createNovelList();
 
-        Map<String, Novel> novelMap;
-        Set<String>        novelKeySet;
-        Iterator<String>   it;
-        List<String>       keyList;
+        insertNovelsMap(novelsMap);
 
-        novelMap    = new HashMap<>();
-        insertNovelMap(novelMap);
-
-        novelKeySet = novelMap.keySet();
-        keyList     = new ArrayList<>(novelKeySet);
-        it          = keyList.iterator();
-
-        System.out.println("Mapped Novel titles:");
-        while(it.hasNext())
-        {
-            final String novelTitle;
-            final String novelLowerCase;
-
-            novelTitle = it.next();
-
-            novelLowerCase = novelTitle.toLowerCase();
-
-            System.out.println(novelTitle);
-
-            if(novelLowerCase.contains("the"))
-            {
-                it.remove();
-            }
-        }
-
-        System.out.print(System.lineSeparator());
-
-        System.out.println("Novels without \'the\':");
-        for(final String novelKey : keyList)
-        {
-            System.out.println(novelMap.get(novelKey).getTitle());
-        }
-        System.out.print(System.lineSeparator());
+        this.keySet  = novelsMap.keySet();
+        this.keyList = new ArrayList<>(keySet);
+        Collections.sort(keyList);
     }
 
     /**
@@ -88,14 +63,6 @@ public class BookStore
         return storeName;
     }
 
-    public void insertNovelMap(final Map<String, Novel> novelMap)
-    {
-        for(Novel novel : novels)
-        {
-            novelMap.put(novel.getTitle(), novel);
-        }
-    }
-
     /*
     Checks to make sure the store name is not null or empty.
      */
@@ -104,6 +71,17 @@ public class BookStore
         if(storeName == null || storeName.isEmpty())
         {
             throw new IllegalArgumentException("Store name cannot be null or empty");
+        }
+    }
+
+    /*
+     * Helper method to populate hashmap with Novels
+     */
+    private void insertNovelsMap(final Map<String, Novel> novelMap)
+    {
+        for(Novel novel : novels)
+        {
+            novelMap.put(novel.getTitle(), novel);
         }
     }
 
@@ -166,8 +144,8 @@ public class BookStore
 
     /**
      * Prints all the novels published in a decade determined by the passed int parameter.
-     * Takes a given decade parameter and rounds it down to the nearest {@value DECADE_LOWER_BOUND_ROUNDER} to determine
-     * the lower bound of the decade. Then adds {@value DECADE_UPPER_BOUND_ROUNDER}
+     * Takes a given decade parameter and rounds it down to the nearest {@value ROUND_LOWER_BOUND} to determine
+     * the lower bound of the decade. Then adds {@value ROUND_UPPER_BOUND}
      *
      * @param decade a year that falls in the desired decade
      */
@@ -177,8 +155,8 @@ public class BookStore
         int endOfDecade;
         int publicationYear;
 
-        startOfDecade = (decade/DECADE_LOWER_BOUND_ROUNDER) * DECADE_LOWER_BOUND_ROUNDER;
-        endOfDecade = startOfDecade + DECADE_UPPER_BOUND_ROUNDER;
+        startOfDecade = (decade/ ROUND_LOWER_BOUND) * ROUND_LOWER_BOUND;
+        endOfDecade = startOfDecade + ROUND_UPPER_BOUND;
 
         for(Novel novel : novels)
         {
@@ -257,7 +235,6 @@ public class BookStore
         counter       = 0;
         wordLowerCase = word.toLowerCase();
 
-        System.out.println("All Novels without \"the\":");
         for(Novel novel : novels)
         {
             final String novelTitle;
@@ -370,7 +347,6 @@ public class BookStore
         final List<Novel>fifteenCharTitles;
 
         store = new BookStore("Books and Books and Books");
-        System.out.println(store.getStoreName());
 
         System.out.println("Print all of the book titles in UPPERCASE");
         store.printAllTitles();
@@ -406,6 +382,47 @@ public class BookStore
         fifteenCharTitles = store.getBooksThisLength(15);
         fifteenCharTitles.forEach(novels -> System.out.println(novels.getTitle()));
 
-    }
 
+        System.out.println("\nIterator and HashMap.\nPrint All Titles");
+        if(store.keyList != null) {
+            final Iterator<String> it;
+
+            it = store.keyList.iterator();
+
+            while (it.hasNext())
+            {
+                final String key;
+                final String value;
+
+                key = it.next();
+                value = store.novelsMap.get(key).getTitle();
+
+                System.out.println(value);
+            }
+        }
+
+        System.out.println("\nAll titles containing \"The\" filtered out:");
+        if(store.keyList != null)
+        {
+            final Iterator<String> it;
+
+            it = store.keyList.iterator();
+
+            while(it.hasNext())
+            {
+                final String key;
+
+                key = it.next();
+                if(key.toLowerCase().contains("the"))
+                {
+                    it.remove();
+                }
+            }
+
+            for(String key : store.keyList)
+            {
+                System.out.println(store.novelsMap.get(key).getTitle());
+            }
+        }
+    }
 }
