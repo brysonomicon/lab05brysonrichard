@@ -41,15 +41,14 @@ public class BookStore
     {
         validateName(storeName);
 
-        novelsMap = new HashMap<>();
-
         this.storeName = storeName;
         this.novels    = Novel.createNovelList();
 
+        this.novelsMap = new HashMap<>();
         insertNovelsMap(novelsMap);
 
-        this.keySet  = novelsMap.keySet();
-        this.keyList = new ArrayList<>(keySet);
+        this.keySet    = novelsMap.keySet();
+        this.keyList   = new ArrayList<>(keySet);
         Collections.sort(keyList);
     }
 
@@ -306,7 +305,6 @@ public class BookStore
 
         return oldestBook;
     }
-
 
     /**
      * Returns a list of novels with titles of the specified length.
