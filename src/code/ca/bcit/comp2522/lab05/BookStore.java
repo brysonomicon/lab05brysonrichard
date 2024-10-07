@@ -70,10 +70,12 @@ public class BookStore
 
         System.out.print(System.lineSeparator());
 
+        System.out.println("Novels without \'the\':");
         for(final String novelKey : keyList)
         {
             System.out.println(novelMap.get(novelKey).getTitle());
         }
+        System.out.print(System.lineSeparator());
     }
 
     /**
@@ -255,6 +257,7 @@ public class BookStore
         counter       = 0;
         wordLowerCase = word.toLowerCase();
 
+        System.out.println("All Novels without \"the\":");
         for(Novel novel : novels)
         {
             final String novelTitle;

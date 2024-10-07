@@ -318,10 +318,10 @@ public class Novel implements Comparable<Novel>
     }
 
     // TODO finish off toString method and call it in bookStore after sorting the collection
-    @Override
-    public String toString()
-    {
-
-    }
+//    @Override
+//    public String toString()
+//    {
+//
+//    }
 
 }
