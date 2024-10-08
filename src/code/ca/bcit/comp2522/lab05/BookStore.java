@@ -78,9 +78,14 @@ public class BookStore
      */
     private void insertNovelsMap(final Map<String, Novel> novelMap)
     {
-        for(Novel novel : novels)
+        final boolean emptyNovelMap = novelMap.isEmpty();
+
+        if(novelMap != null && emptyNovelMap)
         {
-            novelMap.put(novel.getTitle(), novel);
+            for (Novel novel : novels)
+            {
+                novelMap.put(novel.getTitle(), novel);
+            }
         }
     }
 
@@ -155,7 +160,7 @@ public class BookStore
         int publicationYear;
 
         startOfDecade = (decade/ ROUND_LOWER_BOUND) * ROUND_LOWER_BOUND;
-        endOfDecade = startOfDecade + ROUND_UPPER_BOUND;
+        endOfDecade   = startOfDecade + ROUND_UPPER_BOUND;
 
         for(Novel novel : novels)
         {
@@ -220,7 +225,7 @@ public class BookStore
     }
 
     /**
-     * Increments a counter for each title in the book list that containts the
+     * Increments a counter for each title in the book list that contains the
      * word passed as a parameter.
      *
      * @param word String to check if contained in each book title
@@ -253,8 +258,8 @@ public class BookStore
      * Returns a double value of the ratio of novels between the ranges passed as
      * parameters and the total number of novels.
      *
-     * @param lowerBound
-     * @param upperBound
+     * @param lowerBound int that indicates the lower limit of years
+     * @param upperBound int that indicates the upper limit of years
      * @return double representing the percentage of novels between the lower and upper bounds
      */
     public double whichPercentWrittenBetween(final int lowerBound,
@@ -340,11 +345,12 @@ public class BookStore
      */
     public static void main(String[] args)
     {
-        BookStore store;
-        final Novel oldest;
-        final List<Novel>fifteenCharTitles;
+        BookStore         store;
+        final Novel       oldest;
+        final List<Novel> fifteenCharTitles;
 
         store = new BookStore("Books and Books and Books");
+        System.out.println("Welcome to " + store.getStoreName());
 
         System.out.println("Print all of the book titles in UPPERCASE");
         store.printAllTitles();
@@ -390,12 +396,10 @@ public class BookStore
             while (it.hasNext())
             {
                 final String key;
-                final String value;
 
                 key = it.next();
-                value = store.novelsMap.get(key).getTitle();
 
-                System.out.println(value);
+                System.out.println(key);
             }
         }
 
@@ -411,6 +415,7 @@ public class BookStore
                 final String key;
 
                 key = it.next();
+
                 if(key.toLowerCase().contains("the"))
                 {
                     it.remove();
@@ -419,8 +424,9 @@ public class BookStore
 
             for(String key : store.keyList)
             {
-                System.out.println(store.novelsMap.get(key).getTitle());
+                System.out.println(store.novelsMap.get(key).toString());
             }
         }
+
     }
 }

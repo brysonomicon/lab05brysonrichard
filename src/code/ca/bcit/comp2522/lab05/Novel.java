@@ -317,11 +317,29 @@ public class Novel implements Comparable<Novel>
         return this.title.compareToIgnoreCase(that.getTitle());
     }
 
-    // TODO finish off toString method and call it in bookStore after sorting the collection
-//    @Override
-//    public String toString()
-//    {
-//
-//    }
+    /**
+     * Returns a string representation of this object, which includes the title,
+     * author, and year of publication in a specific format.
+     * <p>
+     * The format of the returned string is as follows:
+     * <blockquote>
+     * "<i>Title</i>" written by <i>Author</i> in <i>YearPublished</i>
+     * </blockquote>
+     *
+     * @return a formatted string representing the book or document,
+     *         including the title, author, and year of publication.
+     */
+    @Override
+    public String toString()
+    {
+        final StringBuilder bob;
+
+        bob = new StringBuilder();
+
+        bob.append("\"").append(getTitle()).append("\" written by ").append(getAuthor());
+        bob.append(" in ").append(getYearPublished());
+
+        return bob.toString();
+    }
 
 }
