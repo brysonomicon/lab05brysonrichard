@@ -82,7 +82,7 @@ public class BookStore
 
         if(novelMap != null && emptyNovelMap)
         {
-            for (Novel novel : novels)
+            for(Novel novel : novels)
             {
                 novelMap.put(novel.getTitle(), novel);
             }
@@ -396,12 +396,14 @@ public class BookStore
             while (it.hasNext())
             {
                 final String key;
-                final Novel value;
+                final String valueTitle;
+                final Novel  value;
 
                 key = it.next();
                 value = store.novelsMap.get(key);
+                valueTitle = value.getTitle();
 
-                System.out.println(value);
+                System.out.println(valueTitle);
             }
         }
 
