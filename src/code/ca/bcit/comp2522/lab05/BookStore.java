@@ -415,7 +415,6 @@ public class BookStore
             while(it.hasNext())
             {
                 final String key;
-                final Novel value;
 
                 key = it.next();
                 if(key.toLowerCase().contains("the"))
