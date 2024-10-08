@@ -396,10 +396,12 @@ public class BookStore
             while (it.hasNext())
             {
                 final String key;
+                final Novel value;
 
                 key = it.next();
+                value = store.novelsMap.get(key);
 
-                System.out.println(key);
+                System.out.println(value);
             }
         }
 
@@ -413,18 +415,19 @@ public class BookStore
             while(it.hasNext())
             {
                 final String key;
+                final Novel value;
 
                 key = it.next();
-
                 if(key.toLowerCase().contains("the"))
                 {
                     it.remove();
+                    store.novelsMap.remove(key);
                 }
             }
 
             for(String key : store.keyList)
             {
-                System.out.println(store.novelsMap.get(key).toString());
+                System.out.println(store.novelsMap.get(key));
             }
         }
 
