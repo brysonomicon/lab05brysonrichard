@@ -426,7 +426,10 @@ public class BookStore
 
             for(String key : store.keyList)
             {
-                System.out.println(store.novelsMap.get(key));
+                final Novel value;
+
+                value = store.novelsMap.get(key);
+                System.out.println(value);
             }
         }
 
