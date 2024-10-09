@@ -45,7 +45,7 @@ public class BookStore
         this.novels    = Novel.createNovelList();
 
         this.novelsMap = new HashMap<>();
-        insertNovelsMap(novelsMap);
+        this.insertNovelsMap(novelsMap);
 
         this.keySet    = novelsMap.keySet();
         this.keyList   = new ArrayList<>(keySet);
@@ -67,7 +67,9 @@ public class BookStore
      */
     private static void validateName(final String storeName)
     {
-        if(storeName == null || storeName.isEmpty())
+        final boolean storeNameIsEmpty = storeName.trim().isEmpty();
+
+        if(storeName == null || storeNameIsEmpty)
         {
             throw new IllegalArgumentException("Store name cannot be null or empty");
         }
@@ -78,13 +80,16 @@ public class BookStore
      */
     private void insertNovelsMap(final Map<String, Novel> novelMap)
     {
-        final boolean emptyNovelMap = novelMap.isEmpty();
+        final boolean novelMapIsEmpty = novelMap.isEmpty();
 
-        if(novelMap != null && emptyNovelMap)
+        if(novelMap != null && novelMapIsEmpty)
         {
             for(Novel novel : novels)
             {
-                novelMap.put(novel.getTitle(), novel);
+                final String title;
+                title = novel.getTitle();
+
+                novelMap.put(title, novel);
             }
         }
     }
@@ -124,7 +129,11 @@ public class BookStore
 
             if(novelTitleLowerCase.contains(titleLowerCase))
             {
-                System.out.println(novel.getTitle());
+                final String novelTitle;
+
+                novelTitle = novel.getTitle();
+
+                System.out.println(novelTitle);
             }
         }
     }
@@ -159,7 +168,7 @@ public class BookStore
         int endOfDecade;
         int publicationYear;
 
-        startOfDecade = (decade/ ROUND_LOWER_BOUND) * ROUND_LOWER_BOUND;
+        startOfDecade = (decade / ROUND_LOWER_BOUND) * ROUND_LOWER_BOUND;
         endOfDecade   = startOfDecade + ROUND_UPPER_BOUND;
 
         for(Novel novel : novels)
@@ -168,7 +177,11 @@ public class BookStore
 
             if(publicationYear >= startOfDecade && publicationYear <= endOfDecade)
             {
-                System.out.println(novel.getTitle());
+                final String title;
+
+                title = novel.getTitle();
+
+                System.out.println(title);
             }
         }
     }
@@ -188,7 +201,7 @@ public class BookStore
             final int novelTitleLength;
             final int longestNovelTitleLength;
 
-            novelTitleLength = novel.getTitle().length();
+            novelTitleLength        = novel.getTitle().length();
             longestNovelTitleLength = longestTitle.length();
 
             if(novelTitleLength > longestNovelTitleLength)
@@ -266,8 +279,10 @@ public class BookStore
                                              final int upperBound)
     {
         int counter;
+        double novelsSize;
 
         counter = 0;
+        novelsSize = novels.size();
 
         for(Novel novel : novels)
         {
@@ -281,7 +296,7 @@ public class BookStore
             }
         }
 
-        return ((double)counter / (double) novels.size()) * PERCENTAGE_CONVERTOR;
+        return (counter / novelsSize) * PERCENTAGE_CONVERTOR;
     }
 
     /**
@@ -290,25 +305,25 @@ public class BookStore
      */
     public Novel getOldestBook()
     {
-        Novel oldestBook;
+        Novel oldestNovel;
 
-        oldestBook = novels.getFirst();
+        oldestNovel = novels.getFirst();
 
         for (Novel novel : novels)
         {
             final int novelYearPublished;
-            final int oldestBookYearPublished;
+            final int oldestNovelYearPublished;
 
             novelYearPublished      = novel.getYearPublished();
-            oldestBookYearPublished = oldestBook.getYearPublished();
+            oldestNovelYearPublished = oldestNovel.getYearPublished();
 
-            if (novelYearPublished < oldestBookYearPublished)
+            if (novelYearPublished < oldestNovelYearPublished)
             {
-                oldestBook = novel;
+                oldestNovel = novel;
             }
         }
 
-        return oldestBook;
+        return oldestNovel;
     }
 
     /**
@@ -350,13 +365,13 @@ public class BookStore
         final List<Novel> fifteenCharTitles;
 
         store = new BookStore("Books and Books and Books");
-        System.out.println("Welcome to " + store.getStoreName());
+        System.out.printf("Welcome to %s\n", store.getStoreName());
 
         System.out.println("Print all of the book titles in UPPERCASE");
         store.printAllTitles();
 
         System.out.println("\nBook Titles containing \"The\"");
-        store.printBookTitle("the");
+        store.printBookTitle("The");
 
         System.out.println("\nAll Titles in Alphabetical Order");
         store.printTitlesInAlphaOrder();
@@ -379,8 +394,20 @@ public class BookStore
         System.out.println("\nOldest Book Title");
 
         oldest = store.getOldestBook();
-        System.out.println(oldest.getTitle() + " by " + oldest.getAuthor() + ", " +
-                oldest.getYearPublished());
+        {
+            final StringBuilder sb;
+
+            sb = new StringBuilder();
+
+            sb.append(oldest.getTitle());
+            sb.append(" by ");
+            sb.append(oldest.getAuthor());
+            sb.append("\n");
+            sb.append("Published: ");
+            sb.append(oldest.getYearPublished());
+
+            System.out.println(sb);
+        }
 
         System.out.println("\nNovels with 15 characters");
         fifteenCharTitles = store.getBooksThisLength(15);
@@ -388,7 +415,7 @@ public class BookStore
 
 
         System.out.println("\nIterator and HashMap.\nPrint All Titles");
-        if(store.keyList != null) {
+        {
             final Iterator<String> it;
 
             it = store.keyList.iterator();
@@ -397,18 +424,15 @@ public class BookStore
             {
                 final String key;
                 final String valueTitle;
-                final Novel  value;
 
-                key = it.next();
-                value = store.novelsMap.get(key);
-                valueTitle = value.getTitle();
+                key        = it.next();
+                valueTitle = store.novelsMap.get(key).getTitle();
 
                 System.out.println(valueTitle);
             }
         }
 
         System.out.println("\nAll titles containing \"The\" filtered out:");
-        if(store.keyList != null)
         {
             final Iterator<String> it;
 
@@ -419,6 +443,7 @@ public class BookStore
                 final String key;
 
                 key = it.next();
+
                 if(key.toLowerCase().contains("the"))
                 {
                     it.remove();
@@ -431,6 +456,7 @@ public class BookStore
                 final Novel value;
 
                 value = store.novelsMap.get(key);
+
                 System.out.println(value);
             }
         }
