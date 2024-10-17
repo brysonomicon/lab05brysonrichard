@@ -266,7 +266,11 @@ public class Novel implements Comparable<Novel>
 
         for(int i = 0; i < TITLES.length; ++i)
         {
-            novels.add(new Novel(TITLES[i], AUTHORS[i], YEARS_PUBLISHED[i]));
+            final Novel novel;
+
+            novel = new Novel(TITLES[i], AUTHORS[i], YEARS_PUBLISHED[i]);
+
+            novels.add(novel);
         }
 
         return novels;
@@ -333,9 +337,9 @@ public class Novel implements Comparable<Novel>
     public String toString()
     {
         final StringBuilder bob;
-        final String title;
-        final String author;
-        final int yearPublished;
+        final String        title;
+        final String        author;
+        final int           yearPublished;
 
         bob = new StringBuilder();
 

@@ -24,6 +24,7 @@ public class BookStore
     private static final int ROUND_LOWER_BOUND    = 10;
     private static final int ROUND_UPPER_BOUND    = 9;
     private static final int PERCENTAGE_CONVERTOR = 100;
+    private static final int COUNT_ZERO           = 0;
 
     private final String             storeName;
     private final List<Novel>        novels;
@@ -45,7 +46,7 @@ public class BookStore
         this.novels    = Novel.createNovelList();
 
         this.novelsMap = new HashMap<>();
-        this.insertNovelsMap(novelsMap);
+        this.populateNovelsMap(novelsMap);
 
         this.keySet    = novelsMap.keySet();
         this.keyList   = new ArrayList<>(keySet);
@@ -67,7 +68,9 @@ public class BookStore
      */
     private static void validateName(final String storeName)
     {
-        final boolean storeNameIsEmpty = storeName.trim().isEmpty();
+        final boolean storeNameIsEmpty;
+
+        storeNameIsEmpty = storeName.trim().isEmpty();
 
         if(storeName == null || storeNameIsEmpty)
         {
@@ -78,15 +81,18 @@ public class BookStore
     /*
      * Helper method to populate hashmap with Novels
      */
-    private void insertNovelsMap(final Map<String, Novel> novelMap)
+    private void populateNovelsMap(final Map<String, Novel> novelMap)
     {
-        final boolean novelMapIsEmpty = novelMap.isEmpty();
+        final boolean novelMapIsEmpty;
+
+        novelMapIsEmpty = novelMap.isEmpty();
 
         if(novelMap != null && novelMapIsEmpty)
         {
-            for(Novel novel : novels)
+            for(final Novel novel : novels)
             {
                 final String title;
+
                 title = novel.getTitle();
 
                 novelMap.put(title, novel);
@@ -99,7 +105,7 @@ public class BookStore
      */
     public void printAllTitles()
     {
-        for(Novel novel : novels)
+        for(final Novel novel : novels)
         {
             final String titleUpperCase;
 
@@ -117,11 +123,11 @@ public class BookStore
      */
     public void printBookTitle(final String title)
     {
-        String titleLowerCase;
+        final String titleLowerCase;
 
         titleLowerCase = title.toLowerCase();
 
-        for(Novel novel : novels)
+        for(final Novel novel : novels)
         {
             final String novelTitleLowerCase;
 
@@ -144,12 +150,12 @@ public class BookStore
      */
     public void printTitlesInAlphaOrder()
     {
-        List<Novel> sortedBooks;
+        final List<Novel> sortedBooks;
 
         sortedBooks = new ArrayList<>(novels);
         Collections.sort(sortedBooks);
 
-        for(Novel novel : sortedBooks)
+        for(final Novel novel : sortedBooks)
         {
             System.out.println(novel.getTitle());
         }
@@ -164,14 +170,14 @@ public class BookStore
      */
     public void printGroupByDecade(final int decade)
     {
-        int startOfDecade;
-        int endOfDecade;
-        int publicationYear;
+        final int startOfDecade;
+        final int endOfDecade;
+        int       publicationYear;
 
         startOfDecade = (decade / ROUND_LOWER_BOUND) * ROUND_LOWER_BOUND;
         endOfDecade   = startOfDecade + ROUND_UPPER_BOUND;
 
-        for(Novel novel : novels)
+        for(final Novel novel : novels)
         {
             publicationYear = novel.getYearPublished();
 
@@ -192,37 +198,37 @@ public class BookStore
      */
     public void printLongest()
     {
-        String longestTitle;
+        Novel longestNovel;
 
-        longestTitle = novels.getFirst().getTitle();
+        longestNovel = novels.getFirst();
 
-        for(Novel novel : novels)
+        for(final Novel novel : novels)
         {
             final int novelTitleLength;
             final int longestNovelTitleLength;
 
             novelTitleLength        = novel.getTitle().length();
-            longestNovelTitleLength = longestTitle.length();
+            longestNovelTitleLength = longestNovel.getTitle().length();
 
             if(novelTitleLength > longestNovelTitleLength)
             {
-                longestTitle = novel.getTitle();
+                longestNovel = novel;
             }
         }
 
-        System.out.println(longestTitle);
+        System.out.println(longestNovel);
     }
 
     /**
      * Iterates through the book list to see if any were published in the year passed
      * as a parameter. Returns true if one is found, false if not.
      *
-     * @param year to check if
+     * @param year int of the year to check if the book was written in
      * @return boolean
      */
     public boolean isThereABookWrittenIn(final int year)
     {
-        for(Novel novel : novels)
+        for(final Novel novel : novels)
         {
             final int novelYearPublished;
 
@@ -249,10 +255,10 @@ public class BookStore
         int          counter;
         final String wordLowerCase;
 
-        counter       = 0;
+        counter       = COUNT_ZERO;
         wordLowerCase = word.toLowerCase();
 
-        for(Novel novel : novels)
+        for(final Novel novel : novels)
         {
             final String novelTitle;
 
@@ -278,13 +284,13 @@ public class BookStore
     public double whichPercentWrittenBetween(final int lowerBound,
                                              final int upperBound)
     {
-        int counter;
+        int    counter;
         double novelsSize;
 
-        counter = 0;
+        counter    = COUNT_ZERO;
         novelsSize = novels.size();
 
-        for(Novel novel : novels)
+        for(final Novel novel : novels)
         {
             final int novelYearPublished;
 
@@ -309,12 +315,12 @@ public class BookStore
 
         oldestNovel = novels.getFirst();
 
-        for (Novel novel : novels)
+        for (final Novel novel : novels)
         {
             final int novelYearPublished;
             final int oldestNovelYearPublished;
 
-            novelYearPublished      = novel.getYearPublished();
+            novelYearPublished       = novel.getYearPublished();
             oldestNovelYearPublished = oldestNovel.getYearPublished();
 
             if (novelYearPublished < oldestNovelYearPublished)
@@ -338,7 +344,7 @@ public class BookStore
 
         novelsWithLength = new ArrayList<>();
 
-        for(Novel novel : novels)
+        for(final Novel novel : novels)
         {
             final int novelTitleLength;
 
@@ -360,12 +366,14 @@ public class BookStore
      */
     public static void main(String[] args)
     {
-        BookStore         store;
+        final BookStore   store;
+        final String      storeName;
         final Novel       oldest;
         final List<Novel> fifteenCharTitles;
 
-        store = new BookStore("Books and Books and Books");
-        System.out.printf("Welcome to %s\n", store.getStoreName());
+        store     = new BookStore("Books and Books and Books");
+        storeName = store.getStoreName();
+        System.out.printf("Welcome to %s\n", storeName);
 
         System.out.println("Print all of the book titles in UPPERCASE");
         store.printAllTitles();
@@ -392,35 +400,35 @@ public class BookStore
         System.out.println(store.whichPercentWrittenBetween(1940, 1950) + "%");
 
         System.out.println("\nOldest Book Title");
-
         oldest = store.getOldestBook();
-        {
-            final StringBuilder sb;
-
-            sb = new StringBuilder();
-
-            sb.append(oldest.getTitle());
-            sb.append(" by ");
-            sb.append(oldest.getAuthor());
-            sb.append("\n");
-            sb.append("Published: ");
-            sb.append(oldest.getYearPublished());
-
-            System.out.println(sb);
-        }
+        System.out.println(oldest);
 
         System.out.println("\nNovels with 15 characters");
         fifteenCharTitles = store.getBooksThisLength(15);
-        fifteenCharTitles.forEach(novels -> System.out.println(novels.getTitle()));
+        {
+            final Iterator<Novel> it;
 
+            it = fifteenCharTitles.iterator();
 
-        System.out.println("\nIterator and HashMap.\nPrint All Titles");
+            while(it.hasNext())
+            {
+                final Novel novel;
+
+                novel = it.next();
+
+                System.out.println(novel);
+            }
+        }
+//        fifteenCharTitles.forEach(novels -> System.out.println(novels.getTitle()));
+
+        System.out.println("\nLab Part 2: BookShop");
+        System.out.println("Iterator and HashMap.\nPrint All Titles");
         {
             final Iterator<String> it;
 
             it = store.keyList.iterator();
 
-            while (it.hasNext())
+            while(it.hasNext())
             {
                 final String key;
                 final String valueTitle;
@@ -441,17 +449,19 @@ public class BookStore
             while(it.hasNext())
             {
                 final String key;
+                final String keyLowerCase;
 
-                key = it.next();
+                key          = it.next();
+                keyLowerCase = key.toLowerCase();
 
-                if(key.toLowerCase().contains("the"))
+                if(keyLowerCase.contains("the"))
                 {
                     it.remove();
                     store.novelsMap.remove(key);
                 }
             }
 
-            for(String key : store.keyList)
+            for(final String key : store.keyList)
             {
                 final Novel value;
 
