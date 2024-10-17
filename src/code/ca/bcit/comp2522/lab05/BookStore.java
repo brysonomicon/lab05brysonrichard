@@ -284,8 +284,8 @@ public class BookStore
     public double whichPercentWrittenBetween(final int lowerBound,
                                              final int upperBound)
     {
-        int    counter;
-        double novelsSize;
+        int          counter;
+        final double novelsSize;
 
         counter    = COUNT_ZERO;
         novelsSize = novels.size();
@@ -315,7 +315,7 @@ public class BookStore
 
         oldestNovel = novels.getFirst();
 
-        for (final Novel novel : novels)
+        for(final Novel novel : novels)
         {
             final int novelYearPublished;
             final int oldestNovelYearPublished;
