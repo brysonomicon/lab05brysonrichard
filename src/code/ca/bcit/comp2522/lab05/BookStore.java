@@ -24,7 +24,8 @@ public class BookStore
     private static final int ROUND_LOWER_BOUND    = 10;
     private static final int ROUND_UPPER_BOUND    = 9;
     private static final int PERCENTAGE_CONVERTOR = 100;
-    private static final int COUNT_ZERO           = 0;
+    private static final int NONE                 = 0;
+    private static final int INCREMENT_AMOUNT     = 1;
 
     private final String             storeName;
     private final List<Novel>        novels;
@@ -200,19 +201,24 @@ public class BookStore
     {
         Novel longestNovel;
 
-        longestNovel = novels.getFirst();
+        longestNovel = null;
 
-        for(final Novel novel : novels)
+        if(!novels.isEmpty())
         {
-            final int novelTitleLength;
-            final int longestNovelTitleLength;
+            longestNovel = novels.getFirst();
 
-            novelTitleLength        = novel.getTitle().length();
-            longestNovelTitleLength = longestNovel.getTitle().length();
-
-            if(novelTitleLength > longestNovelTitleLength)
+            for(final Novel novel : novels)
             {
-                longestNovel = novel;
+                final int novelTitleLength;
+                final int longestNovelTitleLength;
+
+                novelTitleLength        = novel.getTitle().length();
+                longestNovelTitleLength = longestNovel.getTitle().length();
+
+                if(novelTitleLength > longestNovelTitleLength)
+                {
+                    longestNovel = novel;
+                }
             }
         }
 
@@ -255,7 +261,7 @@ public class BookStore
         int          counter;
         final String wordLowerCase;
 
-        counter       = COUNT_ZERO;
+        counter       = NONE;
         wordLowerCase = word.toLowerCase();
 
         for(final Novel novel : novels)
@@ -266,7 +272,7 @@ public class BookStore
 
             if(novelTitle.contains(wordLowerCase))
             {
-                counter++;
+                counter += INCREMENT_AMOUNT;
             }
         }
 
@@ -287,7 +293,7 @@ public class BookStore
         int          counter;
         final double novelsSize;
 
-        counter    = COUNT_ZERO;
+        counter    = NONE;
         novelsSize = novels.size();
 
         for(final Novel novel : novels)
@@ -298,7 +304,7 @@ public class BookStore
 
             if(novelYearPublished <= upperBound && novelYearPublished >= lowerBound)
             {
-                ++counter;
+                counter += INCREMENT_AMOUNT;
             }
         }
 
@@ -313,19 +319,24 @@ public class BookStore
     {
         Novel oldestNovel;
 
-        oldestNovel = novels.getFirst();
+        oldestNovel = null;
 
-        for(final Novel novel : novels)
+        if(!novels.isEmpty())
         {
-            final int novelYearPublished;
-            final int oldestNovelYearPublished;
+            oldestNovel = novels.getFirst();
 
-            novelYearPublished       = novel.getYearPublished();
-            oldestNovelYearPublished = oldestNovel.getYearPublished();
-
-            if (novelYearPublished < oldestNovelYearPublished)
+            for(final Novel novel : novels)
             {
-                oldestNovel = novel;
+                final int novelYearPublished;
+                final int oldestNovelYearPublished;
+
+                novelYearPublished       = novel.getYearPublished();
+                oldestNovelYearPublished = oldestNovel.getYearPublished();
+
+                if(novelYearPublished < oldestNovelYearPublished)
+                {
+                    oldestNovel = novel;
+                }
             }
         }
 
@@ -364,12 +375,12 @@ public class BookStore
      *
      * @param args command line arguments
      */
-    public static void main(String[] args)
+    public static void main(final String[] args)
     {
         final BookStore   store;
         final String      storeName;
         final Novel       oldest;
-        final List<Novel> fifteenCharTitles;
+        final List<Novel> matchingTitles;
 
         store     = new BookStore("Books and Books and Books");
         storeName = store.getStoreName();
